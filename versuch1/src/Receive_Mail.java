@@ -19,10 +19,8 @@ public class Receive_Mail {
 		try {
 			Properties props = new Properties();
 			props.put("mail.store.protocol", "pop3");
-			//props.put("mail.debug", "true");
-			//props.put("mail.debug.quote", "true");
+		
 			Session session = Session.getInstance(props, null);
-			//session.setDebug(true);
 			
 			Store store = session.getStore();
 			store.connect("localhost", "labrat", "kn1lab");
