@@ -20,12 +20,12 @@ public class Send_Mail {
 			Session session = Session.getInstance(props, null);
 			// Create a Message
 			Message msg = new MimeMessage(session);
-			msg.setSubject("Mail number four");
+			msg.setSubject("Test");
 			msg.setSentDate(new Date());
 			msg.setFrom();
 			msg.setRecipients(Message.RecipientType.TO, 
   			InternetAddress.parse("labrat@localhost", false));
-			msg.setText("Mail number four ");
+			msg.setText("Test ");
 			// Send the message
 			Transport.send(msg);
 		} catch (Exception e) {
