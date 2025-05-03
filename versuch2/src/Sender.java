@@ -77,7 +77,7 @@ public class Sender {
                 if((ack.isAckFlag() && ack.getAckNum() == ackNum)){
                     send = true;
                     i++;
-                    seq++;
+                    seq = ackNum + 1;
                 }
                 else {
                     
