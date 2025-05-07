@@ -53,7 +53,7 @@ public class Sender {
             boolean ackFlag = false;
             while (ackFlag == false) {
                 // create new packet 
-                Packet packetOut = new Packet(seqNum, ackNum, ackFlag, payload);
+                Packet packetOut = new Packet(seqNum, 1, ackFlag, payload);
 
                 // serialize Packet for sending
                 ByteArrayOutputStream b = new ByteArrayOutputStream();
@@ -78,7 +78,7 @@ public class Sender {
                         System.out.println("Received ACK for seq " + seqNum);
                         ackFlag = true;
                         i++;
-                        seqNum = ackNum + 1;
+                        seqNum = ackNum;
                     } else {
                         System.out.println("Wrong ACK received, retrying...");
                     }
