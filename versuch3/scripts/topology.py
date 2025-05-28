@@ -23,9 +23,13 @@ class MyTopo(Topo):
 
         # create switch
         sw1 = self.addSwitch('sw1')
+        sw2 = self.addSwitch('sw2')
 
         # create router
         r1 = self.addHost('r1', ip='10.0.0.1/26')
+        r2 = self.addHost('r2', ip='10.0.2.1/25')
+
+        burak = self.addHost('10.0.2.2');
 
         # do the wiring
         # - hosts to switch
@@ -43,7 +47,9 @@ class MyTopo(Topo):
 def conf(network):
     # router addresses
     network['r1'].cmd('ip addr add 10.0.0.1/26 dev r1-eth0')
-    network['r1'].cmd('ip addr add 10.0.2.1/29 dev r1-eth1')
+    # network['r1'].cmd('ip addr add 10.0.2.1/29 dev r1-eth1')
+    # fix
+    network['r1'].cmd('ip addr add 10.0.1.1/29 dev r1-eth1')
     network['r1'].cmd('sysctl net.ipv4.conf.all.forwarding=1')
 
     # client routing
