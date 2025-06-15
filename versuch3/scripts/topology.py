@@ -19,13 +19,17 @@ class MyTopo(Topo):
         ben = self.addHost('ben', ip='10.0.0.5/26')
         elias = self.addHost('elias', ip='10.0.0.6/26')
 
+        burak = self.addHost('burak', ip='10.0.2.2/25')
+
         nas = self.addHost('nas', ip='10.0.1.2/29')
 
         # create switch
         sw1 = self.addSwitch('sw1')
+        sw2 = self.addSwitch('sw2')
 
         # create router
         r1 = self.addHost('r1', ip='10.0.0.1/26')
+        r2 = self.addHost('r2', ip='10.0.2.1/25')
 
         # do the wiring
         # - hosts to switch
@@ -34,17 +38,27 @@ class MyTopo(Topo):
         self.addLink(ela, sw1)
         self.addLink(ben, sw1)
         self.addLink(elias, sw1)
+
+
         # - nas over router to switch
         self.addLink(r1, sw1)
         self.addLink(nas, r1)
 
+        self.addLink(r2, r1)
+        self.addLink(r2, sw2)
+        self.addLink(sw2, burak)
 
 # configuration
 def conf(network):
     # router addresses
     network['r1'].cmd('ip addr add 10.0.0.1/26 dev r1-eth0')
-    network['r1'].cmd('ip addr add 10.0.2.1/29 dev r1-eth1')
+    network['r1'].cmd('ip addr add 10.0.1.1/29 dev r1-eth1')
+    network['r1'].cmd('ip addr add 10.0.1.64/31 dev r1-eth2')
     network['r1'].cmd('sysctl net.ipv4.conf.all.forwarding=1')
+
+    network['r2'].cmd('ip addr add 10.0.2.1/25 dev r2-eth0')
+    network['r2'].cmd('ip addr add 10.0.1.65/31 dev r2-eth1')
+    network['r2'].cmd('sysctl net.ipv4.conf.all.forwarding=1')
 
     # client routing
     network['ela'].cmd('ip route add default via 10.0.0.1')
@@ -52,6 +66,8 @@ def conf(network):
     network['ben'].cmd('ip route add default via 10.0.0.1')
     network['lukas'].cmd('ip route add default via 10.0.0.1')
     network['elias'].cmd('ip route add default via 10.0.0.1')
+
+    network['burak'].cmd('ip route add default via 10.0.2.1')
 
     network['nas'].cmd('ip route add default via 10.0.1.1')
 
